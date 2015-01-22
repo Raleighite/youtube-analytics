@@ -4,14 +4,13 @@ import sqlite3
 conn = sqlite3.connect("ytVideoId.db")
 c = conn.cursor()
 
-c.execute("""CREATE TABLE if not exists videoss(video_id TEXT)""")
+c.execute("""CREATE TABLE if not exists videos(video_id TEXT)""")
 
 def data_add(video):
+    counter = 0
     for video_id in video:
-        counter = 0
         storage = video[counter]
         c.execute('''INSERT INTO videos VALUES(?)''', [storage])
-        conn.commit()
         counter += 1
 
 
@@ -44,6 +43,7 @@ def main():
     urls = get_videos(base_url, channel_name)
     print urls
     data_add(urls)
+    conn.commit()
     conn.close()
 
 if __name__ == "__main__":
