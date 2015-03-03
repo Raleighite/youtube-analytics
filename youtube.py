@@ -1,3 +1,4 @@
+from lxml import html
 import requests
 import re
 import sqlite3
@@ -37,6 +38,11 @@ def get_videos(url, channel):
 
 
     return video_list
+
+def scrape_2():
+    return
+
+
 def main():
     channel_name = raw_input("Enter the channel name (i.e., music): ")
     base_url = "http://gdata.youtube.com/feeds/base/users/{0}/uploads?max-results=50&start-index={1}"
