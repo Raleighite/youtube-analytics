@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import httplib2
 import os
 import sys
-
+import sqlite3
 
 from apiclient.discovery import build
 from oauth2client.file import Storage
@@ -60,8 +60,10 @@ parser.add_option("--dimensions", dest="dimensions", help="Report dimensions",
   default="video")
 parser.add_option("--start-date", dest="start_date",
   help="Start date, in YYYY-MM-DD format", default=one_week_ago)
+#parser.add_option("--filters", dest="filters",
+#  help="Filters go here", default='6f17jCKpxcE'),
 parser.add_option("--end-date", dest="end_date",
-  help="End date, in YYYY-MM-DD format", default=one_day_ago)
+ help="End date, in YYYY-MM-DD format", default=one_day_ago)
 parser.add_option("--start-index", dest="start_index", help="Start index",
   default=1, type="int")
 parser.add_option("--max-results", dest="max_results", help="Max results",
@@ -84,18 +86,26 @@ youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, http=http)
 youtube_analytics = build(YOUTUBE_ANALYTICS_API_SERVICE_NAME,
   YOUTUBE_ANALYTICS_API_VERSION, http=http)
 
-channels_response = youtube.channels().list(
-  mine=True,
-  part="id"
-).execute()
+#channels_response = youtube.channels().list(
+#  mine=True,
+#  part="id"
+#).execute()
 
-for channel in channels_response.get("items", []):
-  channel_id = channel["id"]
+#for channel in channels_response.get("items", []):
+channel_id = "UCe4I8Q1Nvj3wB_zWpAcVspg"
 
-  analytics_response = youtube_analytics.reports().query(
-    ids="channel==%s" % channel_id,
+with sqlite3.connect("ytVideoId.db") as connection:
+  my_finger = connection.cursor()
+  my_finger.execute("SELECT video_id from videos")
+  video_id = my_finger.fetchall()
+
+  for vid in video_id:
+
+    analytics_response = youtube_analytics.reports().query(
+    ids="channel==UCe4I8Q1Nvj3wB_zWpAcVspg",
     metrics=options.metrics,
     dimensions=options.dimensions,
+    filters="video=={}".format(vid),
     start_date=options.start_date,
     end_date=options.end_date,
     start_index=options.start_index,
@@ -103,13 +113,14 @@ for channel in channels_response.get("items", []):
     sort=options.sort
   ).execute()
 
-  print "Analytics Data for Channel %s" % channel_id
 
-  for column_header in analytics_response.get("columnHeaders", []):
-    print "%-20s" % column_header["name"],
-  print
+    print "Analytics Data for Channel %s" % channel_id
 
-  for row in analytics_response.get("rows", []):
-    for value in row:
-      print "%-20s" % value,
+    for column_header in analytics_response.get("columnHeaders", []):
+      print "%-20s" % column_header["name"],
     print
+
+    for row in analytics_response.get("rows", []):
+      for value in row:
+        print "%-20s" % value,
+      print
