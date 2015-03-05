@@ -61,7 +61,7 @@ parser.add_option("--dimensions", dest="dimensions", help="Report dimensions",
 parser.add_option("--start-date", dest="start_date",
   help="Start date, in YYYY-MM-DD format", default=one_week_ago)
 #parser.add_option("--filters", dest="filters",
-#  help="Filters go here", default='6f17jCKpxcE'),
+ # help="Filters go here", default='6f17jCKpxcE'),
 parser.add_option("--end-date", dest="end_date",
  help="End date, in YYYY-MM-DD format", default=one_day_ago)
 parser.add_option("--start-index", dest="start_index", help="Start index",
@@ -94,33 +94,37 @@ youtube_analytics = build(YOUTUBE_ANALYTICS_API_SERVICE_NAME,
 #for channel in channels_response.get("items", []):
 channel_id = "UCe4I8Q1Nvj3wB_zWpAcVspg"
 
+VIDEO_ID = []
+counter = 0
 with sqlite3.connect("ytVideoId.db") as connection:
-  my_finger = connection.cursor()
-  my_finger.execute("SELECT video_id from videos")
-  video_id = my_finger.fetchall()
+  c = connection.cursor()
 
-  for vid in video_id:
+  for row in c.execute('SELECT * FROM videos'):
+    VIDEO_ID.append(row)
 
-    analytics_response = youtube_analytics.reports().query(
-    ids="channel==UCe4I8Q1Nvj3wB_zWpAcVspg",
-    metrics=options.metrics,
-    dimensions=options.dimensions,
-    filters="video=={}".format(vid),
-    start_date=options.start_date,
-    end_date=options.end_date,
-    start_index=options.start_index,
-    max_results=options.max_results,
-    sort=options.sort
+for vid in VIDEO_ID:
+
+  analytics_response = youtube_analytics.reports().query(
+  ids="channel==UCe4I8Q1Nvj3wB_zWpAcVspg",
+  metrics=options.metrics,
+  dimensions=options.dimensions,
+  filters="video==%s" % (vid),
+  start_date=options.start_date,
+  end_date=options.end_date,
+  start_index=options.start_index,
+  max_results=options.max_results,
+  sort=options.sort
   ).execute()
 
 
-    print "Analytics Data for Channel %s" % channel_id
 
-    for column_header in analytics_response.get("columnHeaders", []):
-      print "%-20s" % column_header["name"],
+  print "Analytics Data for Channel %s" % channel_id
+
+  for column_header in analytics_response.get("columnHeaders", []):
+    print "%-20s" % column_header["name"],
+  print
+
+  for row in analytics_response.get("rows", []):
+    for value in row:
+      print "%-20s" % value,
     print
-
-    for row in analytics_response.get("rows", []):
-      for value in row:
-        print "%-20s" % value,
-      print
