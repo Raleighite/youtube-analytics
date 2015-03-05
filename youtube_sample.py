@@ -86,13 +86,13 @@ youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, http=http)
 youtube_analytics = build(YOUTUBE_ANALYTICS_API_SERVICE_NAME,
   YOUTUBE_ANALYTICS_API_VERSION, http=http)
 
-#channels_response = youtube.channels().list(
-#  mine=True,
-#  part="id"
-#).execute()
+channels_response = youtube.channels().list(
+  mine=True,
+  part="id"
+).execute()
 
-#for channel in channels_response.get("items", []):
-channel_id = "UCe4I8Q1Nvj3wB_zWpAcVspg"
+for channel in channels_response.get("items", []):
+  channel_id = channel["id"]
 
 VIDEO_ID = []
 counter = 0
@@ -105,7 +105,7 @@ with sqlite3.connect("ytVideoId.db") as connection:
 for vid in VIDEO_ID:
 
   analytics_response = youtube_analytics.reports().query(
-  ids="channel==UCe4I8Q1Nvj3wB_zWpAcVspg",
+  ids="channel==%s" % channel_id,
   metrics=options.metrics,
   dimensions=options.dimensions,
   filters="video==%s" % (vid),
@@ -115,16 +115,19 @@ for vid in VIDEO_ID:
   max_results=options.max_results,
   sort=options.sort
   ).execute()
+  counter += 1
+  if counter == 0:
+    print "Analytics Data for Channel %s" % channel_id
 
+    for column_header in analytics_response.get("columnHeaders", []):
+      print "%-20s" % column_header["name"],
+    print
+  else:
+    pass
 
-
-  print "Analytics Data for Channel %s" % channel_id
-
-  for column_header in analytics_response.get("columnHeaders", []):
-    print "%-20s" % column_header["name"],
-  print
 
   for row in analytics_response.get("rows", []):
     for value in row:
       print "%-20s" % value,
     print
+print "There are %s videos in this report" % (counter + 1)
