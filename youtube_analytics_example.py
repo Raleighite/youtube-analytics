@@ -21,7 +21,7 @@ from optparse import OptionParser
 # For more information about the client_secrets.json file format, please visit:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 # Please ensure that you have enabled the YouTube Data & Analytics APIs for your project.
-CLIENT_SECRETS_FILE = "client_secrets.json"
+CLIENT_SECRETS_FILE = "client_secrets_test.json"
 
 # We will require read-only access to the YouTube Data and Analytics API.
 YOUTUBE_SCOPES = ["https://www.googleapis.com/auth/youtube.readonly",
