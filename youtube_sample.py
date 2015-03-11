@@ -5,6 +5,7 @@ import httplib2
 import os
 import sys
 import sqlite3
+import csv
 
 from apiclient.discovery import build
 from oauth2client.file import Storage
@@ -86,6 +87,8 @@ youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, http=http)
 youtube_analytics = build(YOUTUBE_ANALYTICS_API_SERVICE_NAME,
   YOUTUBE_ANALYTICS_API_VERSION, http=http)
 
+# The below checks what channel you auth against and returns the channel ID
+# To variable channel_id
 channels_response = youtube.channels().list(
   mine=True,
   part="id"
@@ -94,6 +97,10 @@ channels_response = youtube.channels().list(
 for channel in channels_response.get("items", []):
   channel_id = channel["id"]
 
+# Connects to sqlite database created by youtube.py and pulls in videoIDs
+# IDs are passed to VIDEO_ID list. Counter provides fix for bug that would
+# print a header for each video. It's also used at the end to report how
+# many videos were analyzed.
 VIDEO_ID = []
 counter = 0
 with sqlite3.connect("ytVideoId.db") as connection:
@@ -116,7 +123,7 @@ for vid in VIDEO_ID:
   sort=options.sort
   ).execute()
   counter += 1
-  if counter == 0:
+  if counter == 1:
     print "Analytics Data for Channel %s" % channel_id
 
     for column_header in analytics_response.get("columnHeaders", []):
@@ -130,4 +137,5 @@ for vid in VIDEO_ID:
     for value in row:
       print "%-20s" % value,
     print
+
 print "There are %s videos in this report" % (counter + 1)
