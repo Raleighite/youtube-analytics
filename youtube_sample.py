@@ -12,7 +12,10 @@ from oauth2client.file import Storage
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.tools import run
 from optparse import OptionParser
+from peewee import *
 
+from video_class import Video
+from video_class import initialize
 
 # CLIENT_SECRETS_FILE, name of a file containing the OAuth 2.0 information for
 # this application, including client_id and client_secret. You can acquire an
@@ -136,6 +139,7 @@ for vid in VIDEO_ID:
   for row in analytics_response.get("rows", []):
     for value in row:
       print "%-20s" % value,
+      Video.create(value=video_id)
     print
 
 print "There are %s videos in this report" % (counter + 1)
