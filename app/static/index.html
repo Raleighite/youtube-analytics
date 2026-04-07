@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Analytics Tracker</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>&#9654; YouTube Analytics Tracker</h1>
+        <div class="api-key-bar">
+            <label for="apiKey">API Key:</label>
+            <input type="password" id="apiKey" placeholder="YouTube Data API v3 key (optional for scraping)">
+            <select id="fetchMethod">
+                <option value="auto">Auto (API → Scrape)</option>
+                <option value="api">API Only</option>
+                <option value="scrape">Scrape Only</option>
+            </select>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab active" data-tab="videos">Video Lookup</button>
+        <button class="tab" data-tab="channels">Channel Tracker</button>
+    </nav>
+
+    <main>
+        <!-- ── Video Lookup Tab ─────────────────────────────── -->
+        <section id="videos" class="tab-content active">
+            <div class="input-section">
+                <h2>Look Up Video Performance</h2>
+                <p class="hint">Enter video IDs or full YouTube URLs, one per line.</p>
+                <textarea id="videoIds" rows="5" placeholder="e.g. dQw4w9WgXcQ&#10;https://www.youtube.com/watch?v=jNQXAC9IVRw"></textarea>
+                <button id="lookupVideos" class="btn-primary">Fetch Video Stats</button>
+            </div>
+
+            <div id="videoLoading" class="loading hidden">Fetching video data...</div>
+            <div id="videoError" class="error hidden"></div>
+
+            <div id="videoResults" class="results-grid"></div>
+        </section>
+
+        <!-- ── Channel Tracker Tab ──────────────────────────── -->
+        <section id="channels" class="tab-content">
+            <div class="input-section">
+                <h2>Track Channel Growth</h2>
+                <div class="channel-input-row">
+                    <input type="text" id="channelId" placeholder="Channel ID (e.g. UCxxxxxx) or search name">
+                    <button id="lookupChannel" class="btn-primary">Fetch Channel</button>
+                    <button id="searchChannel" class="btn-secondary">Search by Name</button>
+                </div>
+            </div>
+
+            <div id="channelLoading" class="loading hidden">Fetching channel data...</div>
+            <div id="channelError" class="error hidden"></div>
+
+            <!-- Search results -->
+            <div id="channelSearchResults" class="search-results hidden"></div>
+
+            <!-- Current channel card -->
+            <div id="channelResult" class="channel-card hidden"></div>
+
+            <!-- Channel history chart -->
+            <div id="channelHistorySection" class="hidden">
+                <h3>Subscriber Growth Over Time</h3>
+                <canvas id="channelChart" width="800" height="300"></canvas>
+            </div>
+
+            <!-- Tracked channels -->
+            <div class="tracked-section">
+                <h3>Tracked Channels</h3>
+                <div id="trackedChannels" class="tracked-list"></div>
+            </div>
+        </section>
+
+        <!-- ── Video History Modal ──────────────────────────── -->
+        <div id="historyModal" class="modal hidden">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <h3 id="historyModalTitle">Video History</h3>
+                <canvas id="videoChart" width="700" height="300"></canvas>
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Fetched At</th>
+                            <th>Views</th>
+                            <th>Likes</th>
+                            <th>Comments</th>
+                            <th>Source</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="/app.js"></script>
+</body>
+</html>
