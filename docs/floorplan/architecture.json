@@ -1,0 +1,141 @@
+{
+  "$schema": "floorplan/architecture@1",
+  "audience": "everyone",
+  "project": {
+    "name": "youtube-analytics",
+    "summary": "Legacy Python 2 scripts scrape channel video IDs into SQLite and request OAuth-authorized per-video analytics; two additional files are unfinished drafts, not usable entrypoints.",
+    "entrypoints": [
+      "youtube.py",
+      "youtube_sample.py",
+      "fweeks.py",
+      "video_picker.py"
+    ]
+  },
+  "include": [
+    "code",
+    "config",
+    "docs",
+    "other"
+  ],
+  "nodes": [
+    {
+      "id": "collect",
+      "label": "Video ID scraping",
+      "summary": "Requests the legacy uploads feed and extracts IDs into a SQLite table.",
+      "paths": [
+        "youtube.py",
+        "README.md"
+      ],
+      "kind": "service"
+    },
+    {
+      "id": "report",
+      "label": "OAuth analytics reporting",
+      "summary": "Reads stored video IDs, requests report metrics and prints results.",
+      "paths": [
+        "youtube_sample.py"
+      ],
+      "kind": "service"
+    },
+    {
+      "id": "drafts",
+      "label": "Unfinished report experiments",
+      "summary": "Two incomplete Python scripts cannot be treated as working alternate flows.",
+      "paths": [
+        "fweeks.py",
+        "video_picker.py"
+      ],
+      "kind": "service"
+    },
+    {
+      "id": "database",
+      "label": "Local SQLite handoff",
+      "summary": "ytVideoId.db is runtime data shared between collection and reporting; no database bytes are included.",
+      "paths": [],
+      "kind": "external"
+    },
+    {
+      "id": "google",
+      "label": "Legacy feeds and Google APIs",
+      "summary": "Remote feeds and OAuth-authorized YouTube APIs are outside this repository.",
+      "paths": [],
+      "kind": "external"
+    }
+  ],
+  "edges": [
+    {
+      "from": "collect",
+      "to": "google",
+      "label": "Request legacy uploads-feed pages",
+      "description": "Request legacy uploads-feed pages.",
+      "kind": "data"
+    },
+    {
+      "from": "collect",
+      "to": "database",
+      "label": "Insert IDs and commit",
+      "description": "Insert IDs and commit.",
+      "kind": "data"
+    },
+    {
+      "from": "report",
+      "to": "database",
+      "label": "Read stored IDs",
+      "description": "Read stored IDs.",
+      "kind": "data"
+    },
+    {
+      "from": "report",
+      "to": "google",
+      "label": "Authorize and request per-video analytics",
+      "description": "Authorize and request per-video analytics.",
+      "kind": "data"
+    }
+  ],
+  "flows": [
+    {
+      "id": "reporting",
+      "title": "From collected IDs to printed analytics",
+      "steps": [
+        {
+          "node": "collect",
+          "note": "Prompt for a channel and scrape paginated legacy feed HTML for IDs."
+        },
+        {
+          "node": "database",
+          "note": "Store IDs in the videos table and commit before the separate reporting script runs."
+        },
+        {
+          "node": "report",
+          "note": "Load local IDs and read separately supplied OAuth client configuration."
+        },
+        {
+          "node": "google",
+          "note": "Request a report for each video with selected dates, metrics and dimensions."
+        },
+        {
+          "node": "report",
+          "note": "Print column headers and row values to standard output, not a CSV file."
+        }
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "node": "collect",
+      "title": "Historical source, not a working-service claim",
+      "note": "These scripts use Python 2 syntax and historical feed/API versions. No interpreter, network request, OAuth flow or database was executed."
+    },
+    {
+      "node": "drafts",
+      "title": "Keep incomplete files visible",
+      "note": "fweeks.py ends with an incomplete with statement; video_picker.py has an unfinished loop and report calls before definitions. They remain fully admitted source and explicitly described drafts."
+    },
+    {
+      "node": "report",
+      "title": "The handoff is a local database",
+      "note": "Collection and reporting do not import each other. They communicate through a SQLite filename and table; reporting prints values, even though csv is imported."
+    }
+  ],
+  "annotations": []
+}

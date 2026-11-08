@@ -1,0 +1,22 @@
+{
+  "repository": "Raleighite/youtube-analytics",
+  "source_commit": "6d73b3e9df113342489c1d920b2836c42bf7834e",
+  "public_source_only_review": "Reviewed prose derives only from pinned public repository source; no private operator/profile facts or internal links. Parent independent publication review pending.",
+  "original_files": 7,
+  "original_bytes": 10756,
+  "omissions": [
+    {
+      "path": ".gitignore",
+      "bytes": 19,
+      "reason": "excluded-tree-or-hidden"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 194,
+      "reason": "extension-filter"
+    }
+  ],
+  "admission": "All executable application files admitted unchanged; omitted launch/dependency text remains freshness-pinned.",
+  "runtime_verification": false,
+  "route_review": "Only direct root Flask routes where declared; other programs contain no inbound server dispatch. Scanner symbol extraction is heuristic, including commented sketches; prose identifies inactive drafts."
+}

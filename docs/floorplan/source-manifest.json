@@ -1,0 +1,46 @@
+{
+  "schema": "floorplan/source-manifest@1",
+  "repository": "Raleighite/youtube-analytics",
+  "source_commit": "6d73b3e9df113342489c1d920b2836c42bf7834e",
+  "scope": "Static source mapping; no runtime or deployed-state claim.",
+  "source_policy": "Git-tracked/unignored source/config/templates/static per check_freshness.py, including Procfile; docs/tests/dependencies/cache excluded. Baseline is original unredacted source.",
+  "source_files": {
+    "fweeks.py": "e2de9fed0c1b2b637f859b685838aed52637987d6e8d1c01985f50c4284081b3",
+    "requirements.txt": "56d5fac5b7479d59a963719159289f353c7c1d6ecc3cfdddac96d1ab743b3ed8",
+    "video_picker.py": "ca5cb1845a27a899b30d3386b8308501fcd19fb6fcef9bc16642fb7a21923b95",
+    "youtube.py": "b363eb7188642c27a4f98e2a7e11812f99f9104e86b503f42ee0869cc8ed242e",
+    "youtube_sample.py": "e52a06bac62b10ddca24d13970b805209acf51d3a6c13ed71524dd9bf00f54b5"
+  },
+  "admitted_snapshot": {
+    "fweeks.py": "e2de9fed0c1b2b637f859b685838aed52637987d6e8d1c01985f50c4284081b3",
+    "youtube.py": "b363eb7188642c27a4f98e2a7e11812f99f9104e86b503f42ee0869cc8ed242e",
+    "youtube_sample.py": "e52a06bac62b10ddca24d13970b805209acf51d3a6c13ed71524dd9bf00f54b5",
+    "video_picker.py": "ca5cb1845a27a899b30d3386b8308501fcd19fb6fcef9bc16642fb7a21923b95",
+    "README.md": "5f65aca94b189cd978e559c28026b30fcdac6b42d64787ead6d375b06200b22d"
+  },
+  "counts": {
+    "files": 5,
+    "codeFiles": 4,
+    "routes": 0,
+    "modules": 5,
+    "unassigned": 0,
+    "flows": 1,
+    "tour": 3,
+    "links": 4
+  },
+  "artifacts": {
+    "check_freshness.py": "9d941c34d0b3647da6754819c32c51d83cadf2339a6fe7bcbf614c7dc81c22dd",
+    "source-review.json": "926b32874fd956a1d62759a6e661acd846c9b4c9dc57b5258bf05fbdc27d208b",
+    "generator.json": "dabded3de534568450e05a8b16fc6cd5acb7e0078e72dad6a017907a33b0f02b",
+    "architecture.json": "ef76ef401e90d645db95f078be4746c61fbe11c3fba17ebffe5e3d4b369b6055",
+    "NOTICE.md": "1b961d21b4feedd4af9be96ea51dd05d1f7cf45304ab4fe88d95ba0cebeada2f",
+    "index.html": "580138ef636604464e28c8d2696c78278ed71c4c82d6f731a165e60c23f7071c",
+    "README.md": "9cf496a49d556fb392cc8ddff215a4cdbf0245042c2eb5fd0e3ebfcbbf34f6b7",
+    "descriptions/reviewed.json": "6fb68704dcf07f1a538206d9ab117ab5326631ef3f21a7983a6f3dc4468378d7",
+    "tests/test_freshness.py": "a99031f01872d56d1b14430537b999d1ebf455f461919a5cd7641b193e4710a0",
+    "licenses/inter-LICENSE.txt": "3b0a5fca3d17942cde889069889dedbbbd075e9b599968c82a95f4d944e9b345",
+    "licenses/elkjs-LICENSE.md": "89591d4578fb1ebd91501312a3d25f021bd865a2e436641c1cf7b1bc7e3c1617",
+    "licenses/LICENSE": "65a06a9dab105cd5a2b713a41a020a442bd431e6e19631182ed3889fd1672faf",
+    "licenses/jetbrains-mono-LICENSE.txt": "403581b69dac5cff4079205e01c6b467e56af449ecbd7247693ddb1baafa005b"
+  }
+}
