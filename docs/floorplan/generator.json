@@ -1,0 +1,18 @@
+{
+  "source_commit": "6d73b3e9df113342489c1d920b2836c42bf7834e",
+  "toolchain_commit": "70be3f40f9c2e061290b76027f180d9ff892edd6",
+  "image": "sha256:e7add2a490bb17d97b485b8641bd88455fff7839ade0f5eba493c3508124d413",
+  "include_reviewed": true,
+  "coverage": {
+    "files": 5,
+    "codeFiles": 4,
+    "routes": 0,
+    "modules": 5,
+    "unassigned": 0,
+    "flows": 1,
+    "tour": 3,
+    "links": 4
+  },
+  "scan_sha256": "63193a53b7d84699ad72d4e513ea07f9e2eff92716a7c389938d8f881a62bcce",
+  "derived_sha256": "1f22c524898803f024144efe9bbfd6c41db806ab4c2cee2dd3e5397b5422c150"
+}

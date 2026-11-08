@@ -1,0 +1,25 @@
+{
+  "files": {
+    "README.md": {
+      "name": "Legacy workflow guide",
+      "description": "Describes the Python 2 collection then OAuth reporting sequence; historical setup is not validated today."
+    },
+    "youtube.py": {
+      "name": "Channel ID scraper and SQLite writer",
+      "description": "Uses requests and a regex against a legacy gdata uploads feed, inserts video IDs into SQLite, commits and closes when main completes."
+    },
+    "youtube_sample.py": {
+      "name": "Per-video OAuth analytics report",
+      "description": "Builds OAuth API clients, loads IDs from SQLite, requests report metrics and prints headers/rows. Runtime API compatibility and its final counter expression are unverified."
+    },
+    "fweeks.py": {
+      "name": "Incomplete date-window experiment",
+      "description": "Contains OAuth client setup and a channel request but ends at an incomplete with sqlite3.connect() statement. Not a runnable workflow."
+    },
+    "video_picker.py": {
+      "name": "Incomplete interactive report selector",
+      "description": "Prompts for report type with Python 2 syntax, calls undefined/incompletely defined handlers and leaves the per-video loop without a body. Not a working CLI."
+    }
+  },
+  "routes": {}
+}

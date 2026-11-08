@@ -11,3 +11,7 @@ Clone the repo to your computer. You'll need to have Python 2.7, pip, and virtua
 <b>Options</b><br />
 I plan to make this easier to specify options, but currently you'll have to do it manually within the youtube_sample.py script. The script is a modifyed version of the sample Google provides on their YouTube Analytics API page.
 <br />
+
+## Architecture map
+
+Download and open [the offline Floorplan](docs/floorplan/index.html). Start here, search and Flows explain the pinned source, not a tested deployment. See [scope, licenses and freshness checks](docs/floorplan/README.md).
